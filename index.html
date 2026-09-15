@@ -522,5 +522,30 @@
     </footer>
 
 
+
+    <!-- আমাদের নতুন code এখানে -->
+    <script>
+        const searchInput = document.querySelector('.search-box input');
+        const searchButton = document.querySelector('.search-box button');
+
+        searchButton.addEventListener('click', function () {
+
+            const uid = searchInput.value.trim();
+
+            if (uid === "") {
+                alert("Please enter a Player UID!");
+                return;
+            }
+
+            if (uid === "1234567890") {
+                alert("Player Found! 🎮\n\nIGN: SHADOW X\nUID: 1234567890");
+            } else {
+                alert("Player not found!\n\nDemo UID: 1234567890");
+            }
+
+        });
+    </script>
+
 </body>
+</html>
 </html>
