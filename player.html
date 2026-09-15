@@ -120,7 +120,7 @@ header{
 
 .stats{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(5,1fr);
     gap:15px;
     margin-top:30px;
 }
@@ -140,6 +140,10 @@ header{
 
 .stat strong{
     font-size:25px;
+}
+
+.likes{
+    color:#ff3b30;
 }
 
 .grid{
@@ -217,6 +221,13 @@ footer{
     font-size:13px;
 }
 
+@media(max-width:900px){
+
+    .stats{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
 @media(max-width:768px){
 
     .stats{
@@ -280,9 +291,7 @@ footer{
 
         <div class="name">
 
-            <h1 id="name">
-                Shadow X
-            </h1>
+            <h1 id="name">Shadow X</h1>
 
             <div class="ign">
                 IGN: <span id="ign">SHADOW X</span>
@@ -299,22 +308,27 @@ footer{
 
             <div class="stat">
                 <small>Level</small>
-                <strong>68</strong>
+                <strong id="level">68</strong>
             </div>
 
             <div class="stat">
                 <small>K/D</small>
-                <strong>4.82</strong>
+                <strong id="kd">4.82</strong>
             </div>
 
             <div class="stat">
                 <small>Win Rate</small>
-                <strong>72%</strong>
+                <strong id="winrate">72%</strong>
             </div>
 
             <div class="stat">
                 <small>Matches</small>
-                <strong>1,248</strong>
+                <strong id="matches">1,248</strong>
+            </div>
+
+            <div class="stat">
+                <small>❤️ Likes</small>
+                <strong class="likes" id="likes">12,450</strong>
             </div>
 
         </div>
@@ -328,27 +342,27 @@ footer{
 
                 <div class="row">
                     <span>Current Rank</span>
-                    <strong>Grandmaster</strong>
+                    <strong id="rank">Grandmaster</strong>
                 </div>
 
                 <div class="row">
                     <span>Team</span>
-                    <strong>Shadow Esports</strong>
+                    <strong id="team">Shadow Esports</strong>
                 </div>
 
                 <div class="row">
                     <span>Total Wins</span>
-                    <strong>899</strong>
+                    <strong id="wins">899</strong>
                 </div>
 
                 <div class="row">
                     <span>Total Kills</span>
-                    <strong>6,420</strong>
+                    <strong id="kills">6,420</strong>
                 </div>
 
                 <div class="row">
                     <span>Joined</span>
-                    <strong>Sep 2026</strong>
+                    <strong id="joined">Sep 2026</strong>
                 </div>
 
             </div>
@@ -432,13 +446,80 @@ footer{
 
 <script>
 
+const players = {
+
+    "1234567890": {
+        name: "Shadow X",
+        ign: "SHADOW X",
+        level: "68",
+        kd: "4.82",
+        winrate: "72%",
+        matches: "1,248",
+        likes: "12,450",
+        rank: "Grandmaster",
+        team: "Shadow Esports",
+        wins: "899",
+        kills: "6,420",
+        joined: "Sep 2026"
+    },
+
+    "9876543210": {
+        name: "Naruto FF",
+        ign: "NARUTO FF",
+        level: "72",
+        kd: "5.21",
+        winrate: "76%",
+        matches: "1,532",
+        likes: "18,720",
+        rank: "Grandmaster",
+        team: "Konoha Esports",
+        wins: "1,042",
+        kills: "8,950",
+        joined: "Sep 2026"
+    },
+
+    "5555555555": {
+        name: "Dark Killer",
+        ign: "DARK KILLER",
+        level: "61",
+        kd: "3.95",
+        winrate: "68%",
+        matches: "982",
+        likes: "8,720",
+        rank: "Heroic",
+        team: "Dark Warriors",
+        wins: "641",
+        kills: "4,860",
+        joined: "Sep 2026"
+    }
+
+};
+
+
 const params = new URLSearchParams(window.location.search);
 
 const playerUID = params.get("uid");
 
-if(playerUID){
+const player = players[playerUID];
 
+
+if(player){
+
+    document.getElementById("name").innerText = player.name;
+    document.getElementById("ign").innerText = player.ign;
     document.getElementById("uid").innerText = playerUID;
+
+    document.getElementById("level").innerText = player.level;
+    document.getElementById("kd").innerText = player.kd;
+    document.getElementById("winrate").innerText = player.winrate;
+    document.getElementById("matches").innerText = player.matches;
+    document.getElementById("likes").innerText = player.likes;
+
+    document.getElementById("rank").innerText = player.rank;
+    document.getElementById("team").innerText = player.team;
+    document.getElementById("wins").innerText = player.wins;
+    document.getElementById("kills").innerText = player.kills;
+    document.getElementById("joined").innerText = player.joined;
 
 }
 
@@ -447,11 +528,12 @@ function showID(){
 
     alert(
         "🪪 PLAYER ID CARD\n\n" +
-        "IGN: SHADOW X\n" +
-        "UID: " + (playerUID || "1234567890") + "\n" +
-        "Rank: Grandmaster\n" +
-        "Level: 68\n" +
-        "Team: Shadow Esports"
+        "IGN: " + (player ? player.ign : "Unknown") + "\n" +
+        "UID: " + (playerUID || "Unknown") + "\n" +
+        "Rank: " + (player ? player.rank : "Unknown") + "\n" +
+        "Level: " + (player ? player.level : "Unknown") + "\n" +
+        "Team: " + (player ? player.team : "Unknown") + "\n" +
+        "❤️ Likes: " + (player ? player.likes : "0")
     );
 
 }
