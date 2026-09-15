@@ -146,6 +146,28 @@ header{
     color:#ff3b30;
 }
 
+.like-btn{
+    margin-top:12px;
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:9px;
+    background:#ff3b30;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.like-btn:hover{
+    opacity:.9;
+}
+
+.like-btn:active{
+    transform:scale(.97);
+}
+
 .grid{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -328,7 +350,13 @@ footer{
 
             <div class="stat">
                 <small>❤️ Likes</small>
+
                 <strong class="likes" id="likes">12,450</strong>
+
+                <button class="like-btn" onclick="likeProfile()">
+                    ❤️ Like Profile
+                </button>
+
             </div>
 
         </div>
@@ -520,6 +548,25 @@ if(player){
     document.getElementById("wins").innerText = player.wins;
     document.getElementById("kills").innerText = player.kills;
     document.getElementById("joined").innerText = player.joined;
+
+}
+
+
+function likeProfile(){
+
+    if(!player){
+        return;
+    }
+
+    let currentLikes = parseInt(
+        player.likes.replace(/,/g, "")
+    );
+
+    currentLikes++;
+
+    player.likes = currentLikes.toLocaleString();
+
+    document.getElementById("likes").innerText = player.likes;
 
 }
 
