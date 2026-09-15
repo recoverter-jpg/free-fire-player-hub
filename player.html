@@ -359,7 +359,11 @@ footer{
 
                 <strong class="likes" id="likes">12,450</strong>
 
-                <button class="like-btn" id="likeButton" onclick="likeProfile()">
+                <button
+                    class="like-btn"
+                    id="likeButton"
+                    onclick="likeProfile()"
+                >
                     ❤️ Like Profile
                 </button>
 
@@ -560,42 +564,69 @@ if(player){
 }
 
 
+function getLikeKey(){
+
+    return "ffhub_like_" + playerUID;
+
+}
+
+
 function likeProfile(){
 
     if(!player){
         return;
     }
 
-    const likeKey = "liked_" + playerUID;
+    const likeKey = getLikeKey();
 
-    const today = new Date().toDateString();
+    const today = new Date().toISOString().split("T")[0];
 
-    const lastLiked = localStorage.getItem(likeKey);
+    const lastLikeDate = localStorage.getItem(likeKey);
 
-    if(lastLiked === today){
 
-        alert("❤️ You already liked this profile today!");
+    if(lastLikeDate === today){
 
         disableLikeButton();
 
+        alert("❤️ এই UID-তে আজকে ইতিমধ্যে Like দিয়েছেন!");
+
         return;
+
     }
 
+
     let currentLikes = parseInt(
-        player.likes.replace(/,/g, "")
+        player.likes.replace(/,/g, ""),
+        10
     );
+
+
+    if(isNaN(currentLikes)){
+        currentLikes = 0;
+    }
+
 
     currentLikes++;
 
+
     player.likes = currentLikes.toLocaleString();
 
-    document.getElementById("likes").innerText = player.likes;
 
-    localStorage.setItem(likeKey, today);
+    document.getElementById("likes").innerText =
+        player.likes;
+
+
+    localStorage.setItem(
+        likeKey,
+        today
+    );
+
 
     disableLikeButton();
 
+
     alert("❤️ Profile Liked!");
+
 
 }
 
@@ -606,13 +637,15 @@ function checkLikeStatus(){
         return;
     }
 
-    const likeKey = "liked_" + playerUID;
 
-    const today = new Date().toDateString();
+    const likeKey = getLikeKey();
 
-    const lastLiked = localStorage.getItem(likeKey);
+    const today = new Date().toISOString().split("T")[0];
 
-    if(lastLiked === today){
+    const lastLikeDate = localStorage.getItem(likeKey);
+
+
+    if(lastLikeDate === today){
 
         disableLikeButton();
 
@@ -623,13 +656,16 @@ function checkLikeStatus(){
 
 function disableLikeButton(){
 
-    const button = document.getElementById("likeButton");
+    const button =
+        document.getElementById("likeButton");
+
 
     if(button){
 
         button.disabled = true;
 
-        button.innerText = "❤️ Liked Today";
+        button.innerText =
+            "❤️ Liked Today";
 
         button.classList.add("liked");
 
@@ -642,12 +678,24 @@ function showID(){
 
     alert(
         "🪪 PLAYER ID CARD\n\n" +
-        "IGN: " + (player ? player.ign : "Unknown") + "\n" +
-        "UID: " + (playerUID || "Unknown") + "\n" +
-        "Rank: " + (player ? player.rank : "Unknown") + "\n" +
-        "Level: " + (player ? player.level : "Unknown") + "\n" +
-        "Team: " + (player ? player.team : "Unknown") + "\n" +
-        "❤️ Likes: " + (player ? player.likes : "0")
+
+        "IGN: " +
+        (player ? player.ign : "Unknown") +
+
+        "\nUID: " +
+        (playerUID || "Unknown") +
+
+        "\nRank: " +
+        (player ? player.rank : "Unknown") +
+
+        "\nLevel: " +
+        (player ? player.level : "Unknown") +
+
+        "\nTeam: " +
+        (player ? player.team : "Unknown") +
+
+        "\n❤️ Likes: " +
+        (player ? player.likes : "0")
     );
 
 }
