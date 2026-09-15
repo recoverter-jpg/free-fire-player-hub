@@ -168,6 +168,12 @@ header{
     transform:scale(.97);
 }
 
+.like-btn.liked{
+    background:#777;
+    cursor:not-allowed;
+    opacity:.8;
+}
+
 .grid{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -353,7 +359,7 @@ footer{
 
                 <strong class="likes" id="likes">12,450</strong>
 
-                <button class="like-btn" onclick="likeProfile()">
+                <button class="like-btn" id="likeButton" onclick="likeProfile()">
                     ❤️ Like Profile
                 </button>
 
@@ -549,12 +555,29 @@ if(player){
     document.getElementById("kills").innerText = player.kills;
     document.getElementById("joined").innerText = player.joined;
 
+    checkLikeStatus();
+
 }
 
 
 function likeProfile(){
 
     if(!player){
+        return;
+    }
+
+    const likeKey = "liked_" + playerUID;
+
+    const today = new Date().toDateString();
+
+    const lastLiked = localStorage.getItem(likeKey);
+
+    if(lastLiked === today){
+
+        alert("❤️ You already liked this profile today!");
+
+        disableLikeButton();
+
         return;
     }
 
@@ -567,6 +590,50 @@ function likeProfile(){
     player.likes = currentLikes.toLocaleString();
 
     document.getElementById("likes").innerText = player.likes;
+
+    localStorage.setItem(likeKey, today);
+
+    disableLikeButton();
+
+    alert("❤️ Profile Liked!");
+
+}
+
+
+function checkLikeStatus(){
+
+    if(!player){
+        return;
+    }
+
+    const likeKey = "liked_" + playerUID;
+
+    const today = new Date().toDateString();
+
+    const lastLiked = localStorage.getItem(likeKey);
+
+    if(lastLiked === today){
+
+        disableLikeButton();
+
+    }
+
+}
+
+
+function disableLikeButton(){
+
+    const button = document.getElementById("likeButton");
+
+    if(button){
+
+        button.disabled = true;
+
+        button.innerText = "❤️ Liked Today";
+
+        button.classList.add("liked");
+
+    }
 
 }
 
