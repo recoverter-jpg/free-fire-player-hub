@@ -410,12 +410,29 @@ footer{
 
     <div class="search-box">
 
-        <input
-            id="uidInput"
-            type="text"
-            placeholder="Enter Free Fire UID..."
-        >
+        <div style="display:flex; gap:8px; width:100%;">
 
+    <input
+        id="uidInput"
+        type="text"
+        placeholder="Enter Free Fire UID..."
+        style="flex:1;"
+    >
+
+    <select
+        id="regionSelect"
+        style="padding:0 12px; border:0; outline:0; font-size:14px;"
+    >
+        <option value="bd">Bangladesh</option>
+        <option value="ind">India</option>
+        <option value="id">Indonesia</option>
+        <option value="br">Brazil</option>
+        <option value="th">Thailand</option>
+        <option value="sg">Singapore</option>
+        <option value="other">Worldwide</option>
+    </select>
+
+</div>
         <button onclick="searchPlayer()">
             Search
         </button>
